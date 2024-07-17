@@ -48,7 +48,6 @@ static int	is_everyone_full(t_data *data)
 	return (0);
 }
 
-
 int	dead_or_full(t_data *data)
 {
 	if (is_anyone_dead(data) || is_everyone_full(data))
