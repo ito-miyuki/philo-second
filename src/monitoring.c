@@ -71,7 +71,7 @@ static int	meal_check(t_philo *philo)
 	pthread_mutex_lock(&philo->data->full_lock);
 	philo->data->full_flag = true;
 	pthread_mutex_unlock(&philo->data->full_lock);
-	return (0);
+	return (1);
 }
 
 void	*monitoring(void *ptr)
