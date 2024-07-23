@@ -50,8 +50,11 @@ int	create_threads(t_philo *philo, t_data *data)
 		if (pthread_create(&philo[i].thread, NULL, &philo_routine, &philo[i])
 			!= 0)
 		{
+			pthread_mutex_lock(&data->death_lock);
+			data->dead_flag = true;
+			pthread_mutex_unlock(&data->death_lock);
 			ft_putendl_fd("Error creating monitor thread\n", 2);
-			return (1);
+			break ;
 		}
 		i++;
 	}

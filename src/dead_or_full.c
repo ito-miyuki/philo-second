@@ -24,7 +24,7 @@ int	am_i_full(t_philo *philo)
 	return (0);
 }
 
-int	is_anyone_dead(t_data *data)
+int	dead_flag_check(t_data *data)
 {
 	pthread_mutex_lock(&data->death_lock);
 	if (data->dead_flag == true)
@@ -36,21 +36,9 @@ int	is_anyone_dead(t_data *data)
 	return (0);
 }
 
-static int	is_everyone_full(t_data *data)
+int	dead_or_full(t_philo *philo)
 {
-	pthread_mutex_lock(&data->full_lock);
-	if (data->full_flag == true)
-	{
-		pthread_mutex_unlock(&data->full_lock);
-		return (1);
-	}
-	pthread_mutex_unlock(&data->full_lock);
-	return (0);
-}
-
-int	dead_or_full(t_data *data)
-{
-	if (is_anyone_dead(data) || is_everyone_full(data))
+	if (dead_flag_check(philo->data) || am_i_full(philo))
 		return (1);
 	else
 		return (0);

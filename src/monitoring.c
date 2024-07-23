@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static int	philo_dead_yet(t_philo *philo)
+static int	is_anyone_dead(t_philo *philo)
 {
 	size_t	current_time;
 	size_t	elapsed_time;
@@ -22,8 +22,8 @@ static int	philo_dead_yet(t_philo *philo)
 	elapsed_time = current_time - philo->last_meal_time;
 	if (elapsed_time >= philo->data->time_to_die)
 	{
-		print_death(philo);
 		pthread_mutex_unlock(&philo->meal_lock);
+		print_death(philo);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->meal_lock);
@@ -35,9 +35,9 @@ static int	death_check(t_philo *philo)
 	int	i;
 
 	i = 0;
-	while (i < philo->data->num_of_philos || is_anyone_dead(philo->data))
+	while (i < philo->data->num_of_philos || dead_flag_check(philo->data))
 	{
-		if (philo_dead_yet(&philo[i]))
+		if (is_anyone_dead(&philo[i]))
 		{
 			pthread_mutex_lock(&philo->data->death_lock);
 			philo->data->dead_flag = true;
@@ -49,7 +49,7 @@ static int	death_check(t_philo *philo)
 	return (0);
 }
 
-static int	meal_check(t_philo *philo)
+static int	is_everyone_full(t_philo *philo)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ void	*monitoring(void *ptr)
 	philo = (t_philo *)ptr;
 	while (1)
 	{
-		if (meal_check(philo) || death_check(philo))
+		if (is_everyone_full(philo) || death_check(philo))
 			break ;
 	}
 	pthread_mutex_lock(&philo->data->write_lock);

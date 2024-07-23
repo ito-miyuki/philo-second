@@ -12,11 +12,16 @@
 
 #include "philo.h"
 
-void	ft_usleep(size_t milisecs)
+int	ft_usleep(size_t milisecs, t_philo *philo)
 {
 	size_t	start;
 
 	start = get_current_time();
 	while ((get_current_time() - start) < milisecs)
+	{
+		if (dead_flag_check(philo->data))
+			return (1);
 		usleep(500);
+	}
+	return (0);
 }

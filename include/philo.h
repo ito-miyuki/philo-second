@@ -18,8 +18,8 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <pthread.h>
-# include <stdbool.h> // are we allowed to use?
-# include <sys/time.h> // for gettimeofday function
+# include <stdbool.h>
+# include <sys/time.h>
 
 typedef struct s_data
 {
@@ -68,13 +68,12 @@ void	*philo_routine(void *ptr);
 size_t	get_current_time(void);
 void	print_action(t_philo *philo, char *action);
 void	print_death(t_philo *philo);
-int		dead_or_full(t_data *data);
-int		is_philo_dead(t_philo *philo);
-int		is_anyone_dead(t_data *data);
+int		dead_or_full(t_philo *philo);
+int		dead_flag_check(t_data *data);
 void	ft_putendl_fd(char *str, int fd);
 int		destroy_data_mutexes(t_data *data);
 void	clean_up(t_data *data, t_philo *philo);
 int		am_i_full(t_philo *philo);
-void	ft_usleep(size_t milisecs);
+int		ft_usleep(size_t milisecs, t_philo *philo);
 
 #endif
